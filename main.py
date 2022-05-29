@@ -1,6 +1,7 @@
 from msilib.schema import Icon
 from turtle import Screen
 import pygame
+import random
 
 # init game
 pygame.init()
@@ -22,8 +23,8 @@ playerX_change = 0
 
 # Enemy
 enemyImg = pygame.image.load('alien.png')
-enemyX = 370
-enemyY = 50
+enemyX = random.randint(0, 800)
+enemyY = random.randint(50, 150)
 enemyX_change = 0
 
 
