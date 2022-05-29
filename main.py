@@ -1,8 +1,11 @@
+import imp
+from json import load
 from msilib.schema import Icon
 from turtle import Screen, distance
 import pygame
 import random
 import math
+from pygame import mixer
 
 # init game
 pygame.init()
@@ -12,7 +15,11 @@ screen = pygame.display.set_mode((800, 600))
 
 # background
 background = pygame.image.load('background.png')
+# bg sound
 
+#pygame.mixer.music.load
+mixer.music.load('background.wav')
+mixer.music.play(-1)
 
 # Title and icon
 pygame.display.set_caption("SPACE INVADERS")
@@ -110,8 +117,11 @@ while running:
             if event.key == pygame.K_RIGHT:
                 playerX_change = 5
             if event.key == pygame.K_SPACE:
-                bulletX = playerX
-                fire_bullet(playerX, bulletY)
+                if bullet_state is "ready":
+                    bullet_sound = mixer.Sound('laser.wav')
+                    bullet_sound.play()
+                    bulletX = playerX
+                    fire_bullet(playerX, bulletY)
 
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
@@ -140,6 +150,8 @@ while running:
         # Collision
         collision = isCollision(enemyX[i], enemyY[i], bulletX, bulletY)
         if collision:
+            explosion_sound = mixer.Sound('explosion.wav')
+            explosion_sound.play()
             bulletY = 480
             bullet_state = "ready"
             score_value += 1
